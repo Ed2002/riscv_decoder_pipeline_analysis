@@ -1,3 +1,5 @@
+from translations import TRANSLATIONS
+
 def get_opcode(instruction):
     """Extrai o opcode (bits 0-6) da instrução"""
     return instruction & 0x7F
@@ -52,7 +54,7 @@ def get_imm_j(instruction):
     imm_19_12 = (instruction >> 12) & 0xFF
     return (imm_20 << 20) | (imm_19_12 << 12) | (imm_11 << 11) | (imm_10_1 << 1)
 
-def decode_instruction(instruction):
+def decode_instruction(instruction, lang='pt_BR'):
     """Decodifica todos os campos da instrução baseado no tipo"""
     opcode = get_opcode(instruction)
     
@@ -102,22 +104,22 @@ def decode_instruction(instruction):
     
     return result
 
-def format_instruction_info(info):
+def format_instruction_info(info, lang='pt_BR'):
     """Formata a informação da instrução para exibição"""
-    base = f"formato = {info['tipo'].lower()}"
+    base = TRANSLATIONS[lang]['instruction_format'].format(info['tipo'].lower())
     
     if 'rd' in info:
-        base += f", rd = {info['rd']}"
+        base += f", {TRANSLATIONS[lang]['register_dest'].format(info['rd'])}"
     if 'funct3' in info:
-        base += f", f3 = {info['funct3']}"
+        base += f", {TRANSLATIONS[lang]['function3'].format(info['funct3'])}"
     if 'rs1' in info:
-        base += f", rs1 = {info['rs1']}"
+        base += f", {TRANSLATIONS[lang]['register_src1'].format(info['rs1'])}"
     if 'rs2' in info:
-        base += f", rs2 = {info['rs2']}"
+        base += f", {TRANSLATIONS[lang]['register_src2'].format(info['rs2'])}"
     if 'imm' in info:
-        base += f", imed = {info['imm']}"
+        base += f", {TRANSLATIONS[lang]['immediate'].format(info['imm'])}"
     if 'funct7' in info:
-        base += f", funct7 = {info['funct7']}"
+        base += f", {TRANSLATIONS[lang]['function7'].format(info['funct7'])}"
     
     return base
 

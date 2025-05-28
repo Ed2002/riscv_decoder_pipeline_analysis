@@ -1,40 +1,38 @@
-# Decodificador e Analisador de Pipeline RISC-V
+# Decodificador e Analisador de Pipeline RISC-V / RISC-V Decoder and Pipeline Analyzer
 
-Este programa decodifica instruções RISC-V e analisa conflitos no pipeline, oferecendo diferentes técnicas para otimização. O programa suporta os seguintes tipos de instrução:
-- Tipo R (operações entre registradores)
-- Tipo I (operações imediatas e loads)
-- Tipo S (stores)
-- Tipo B (branches)
-- Tipo U (upper immediate)
-- Tipo J (jumps)
+---
 
-## Versões do Programa
+## Português (BR)
 
-### Interface Gráfica (GUI)
-Execute `riscv_decoder_gui.py` para usar a versão com interface gráfica. Esta versão oferece:
-- Interface amigável e intuitiva
-- Carregamento de arquivos através de diálogo
-- Entrada manual de instruções
-- Visualização formatada dos resultados
-- Barra de status com feedback
-- Botões para carregar arquivo, decodificar e limpar
+Este programa decodifica instruções RISC-V e analisa conflitos no pipeline, oferecendo diferentes técnicas para otimização. Agora, a interface é totalmente bilíngue (Português e Inglês), podendo ser alternada pelo menu "Language / Idioma".
 
-### Linha de Comando (CLI)
-Execute `riscv_classifier.py` para usar a versão em linha de comando.
+### Funcionalidades
+- **Decodificação de instruções**: Identifica o tipo e os campos de cada instrução RISC-V.
+- **Análise de pipeline**: Detecta e trata conflitos de dados e controle, simulando diferentes técnicas de otimização.
+- **Interface gráfica amigável**: Permite entrada manual ou por arquivo, visualização e exportação dos resultados.
+- **Suporte bilíngue**: Todos os textos, botões e mensagens podem ser alternados entre português e inglês.
 
-## Funcionalidades
+### Como usar
+1. Execute o programa:
+   ```
+   python riscv_decoder_gui.py
+   ```
+2. Escolha o idioma no menu "Language / Idioma".
+3. Insira instruções em hexadecimal manualmente ou carregue um arquivo `.txt`.
+4. Use as abas para alternar entre:
+   - **Decodificação**: Mostra o detalhamento de cada instrução.
+   - **Análise de Pipeline**: Mostra os resultados das técnicas de otimização.
+5. Clique em "Decodificar" para ver a decodificação.
+6. Clique em "Analisar Pipeline" para ver os resultados das análises.
+7. Use "Limpar" para resetar as áreas de texto.
 
 ### Decodificação
-- Identifica o tipo da instrução baseado no opcode
-- Extrai todos os campos relevantes para cada tipo de instrução:
-  - rd (registrador destino)
-  - rs1, rs2 (registradores fonte)
-  - funct3, funct7 (campos de função)
-  - imediato (valor imediato, formatado de acordo com o tipo da instrução)
+- Identifica o tipo da instrução (R, I, S, B, U, J)
+- Extrai campos: opcode, rd, rs1, rs2, funct3, funct7, imediato
+- Exibe os campos de forma legível
 
 ### Análise de Pipeline
-O programa implementa as seguintes técnicas de otimização:
-
+O programa implementa as seguintes técnicas:
 1. Detecção de conflitos sem forwarding
 2. Detecção de conflitos com forwarding
 3. Inserção de NOPs sem forwarding
@@ -45,65 +43,22 @@ O programa implementa as seguintes técnicas de otimização:
 8. Delayed branch
 9. Combinação de técnicas 4 e 6
 
-## Requisitos
+Cada técnica mostra o número de conflitos/sobrecusto e permite visualizar ou exportar o resultado.
+
+### Requisitos
 - Python 3.x
-- tkinter (incluído na instalação padrão do Python)
+- tkinter (incluso no Python padrão)
 
-## Como usar a Interface Gráfica
-1. Execute o programa:
-   ```
-   python riscv_decoder_gui.py
-   ```
-2. Use uma das opções:
-   - Clique em "Carregar Arquivo" para selecionar um arquivo de instruções
-   - Digite as instruções hexadecimais diretamente na área de texto
-3. Use as abas para alternar entre:
-   - Decodificação: mostra a decodificação detalhada das instruções
-   - Análise de Pipeline: mostra os resultados das diferentes técnicas de otimização
-4. Clique em "Decodificar" para ver a decodificação
-5. Clique em "Analisar Pipeline" para ver as análises de conflitos e otimizações
-6. Use "Limpar" para resetar as áreas de texto
-
-## Como usar a Versão CLI
-1. Prepare um arquivo de texto contendo as instruções em hexadecimal (uma por linha)
-2. Execute o programa:
-   ```
-   python riscv_classifier.py
-   ```
-3. Digite o nome do arquivo quando solicitado
-
-## Formato do arquivo de entrada
-O arquivo de entrada deve conter uma instrução hexadecimal por linha, por exemplo:
+### Formato do arquivo de entrada
+Uma instrução hexadecimal por linha, exemplo:
 ```
 00500413
 00100093
 ```
 
-## Exemplo de saída da análise de pipeline
-```
-Análise de Pipeline:
-======================================================================
+### Campos decodificados por tipo de instrução
 
-Técnica: 1_sem_forwarding_detect
-Sobrecusto: 0 instruções
-Instruções modificadas:
-  1: 0x00500413
-  2: 0x00100093
-...
-
-Técnica: 2_com_forwarding_detect
-Sobrecusto: 0 instruções
-Instruções modificadas:
-  1: 0x00500413
-  2: 0x00100093
-...
-
---------------------------------------------------
-```
-
-## Campos decodificados por tipo de instrução
-
-### Tipo R
+#### Tipo R
 - opcode (bits 0-6)
 - rd (bits 7-11)
 - funct3 (bits 12-14)
@@ -111,14 +66,14 @@ Instruções modificadas:
 - rs2 (bits 20-24)
 - funct7 (bits 25-31)
 
-### Tipo I
+#### Tipo I
 - opcode (bits 0-6)
 - rd (bits 7-11)
 - funct3 (bits 12-14)
 - rs1 (bits 15-19)
 - imediato (bits 20-31)
 
-### Tipo S
+#### Tipo S
 - opcode (bits 0-6)
 - imediato[4:0] (bits 7-11)
 - funct3 (bits 12-14)
@@ -126,7 +81,7 @@ Instruções modificadas:
 - rs2 (bits 20-24)
 - imediato[11:5] (bits 25-31)
 
-### Tipo B
+#### Tipo B
 - opcode (bits 0-6)
 - imediato[11,4:1] (bits 7-11)
 - funct3 (bits 12-14)
@@ -134,12 +89,111 @@ Instruções modificadas:
 - rs2 (bits 20-24)
 - imediato[12,10:5] (bits 25-31)
 
-### Tipo U
+#### Tipo U
 - opcode (bits 0-6)
 - rd (bits 7-11)
 - imediato[31:12] (bits 12-31)
 
-### Tipo J
+#### Tipo J
 - opcode (bits 0-6)
 - rd (bits 7-11)
-- imediato[20,10:1,11,19:12] (bits 12-31) 
+- imediato[20,10:1,11,19:12] (bits 12-31)
+
+---
+
+## English (US)
+
+This program decodes RISC-V instructions and analyzes pipeline hazards, offering several optimization techniques. The interface is fully bilingual (Portuguese and English), and you can switch languages via the "Language / Idioma" menu.
+
+### Features
+- **Instruction decoding**: Identifies the type and fields of each RISC-V instruction.
+- **Pipeline analysis**: Detects and handles data/control hazards, simulating various optimization techniques.
+- **User-friendly GUI**: Allows manual or file input, result visualization, and export.
+- **Bilingual support**: All texts, buttons, and messages can be switched between Portuguese and English.
+
+### How to use
+1. Run the program:
+   ```
+   python riscv_decoder_gui.py
+   ```
+2. Choose the language in the "Language / Idioma" menu.
+3. Enter hexadecimal instructions manually or load a `.txt` file.
+4. Use the tabs to switch between:
+   - **Decoding**: Shows detailed information for each instruction.
+   - **Pipeline Analysis**: Shows the results of optimization techniques.
+5. Click "Decode" to see the decoding.
+6. Click "Analyze Pipeline" to see the analysis results.
+7. Use "Clear" to reset the text areas.
+
+### Decoding
+- Identifies the instruction type (R, I, S, B, U, J)
+- Extracts fields: opcode, rd, rs1, rs2, funct3, funct7, immediate
+- Displays fields in a readable format
+
+### Pipeline Analysis
+The program implements the following techniques:
+1. Hazard detection without forwarding
+2. Hazard detection with forwarding
+3. NOP insertion without forwarding
+4. NOP insertion with forwarding
+5. Instruction reordering without forwarding
+6. Instruction reordering with forwarding
+7. NOPs for control hazards
+8. Delayed branch
+9. Combination of techniques 4 and 6
+
+Each technique shows the number of hazards/overhead and allows you to view or export the result.
+
+### Requirements
+- Python 3.x
+- tkinter (included in standard Python)
+
+### Input file format
+One hexadecimal instruction per line, e.g.:
+```
+00500413
+00100093
+```
+
+### Decoded fields by instruction type
+
+#### R Type
+- opcode (bits 0-6)
+- rd (bits 7-11)
+- funct3 (bits 12-14)
+- rs1 (bits 15-19)
+- rs2 (bits 20-24)
+- funct7 (bits 25-31)
+
+#### I Type
+- opcode (bits 0-6)
+- rd (bits 7-11)
+- funct3 (bits 12-14)
+- rs1 (bits 15-19)
+- immediate (bits 20-31)
+
+#### S Type
+- opcode (bits 0-6)
+- immediate[4:0] (bits 7-11)
+- funct3 (bits 12-14)
+- rs1 (bits 15-19)
+- rs2 (bits 20-24)
+- immediate[11:5] (bits 25-31)
+
+#### B Type
+- opcode (bits 0-6)
+- immediate[11,4:1] (bits 7-11)
+- funct3 (bits 12-14)
+- rs1 (bits 15-19)
+- rs2 (bits 20-24)
+- immediate[12,10:5] (bits 25-31)
+
+#### U Type
+- opcode (bits 0-6)
+- rd (bits 7-11)
+- immediate[31:12] (bits 12-31)
+
+#### J Type
+- opcode (bits 0-6)
+- rd (bits 7-11)
+- immediate[20,10:1,11,19:12] (bits 12-31) 

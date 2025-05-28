@@ -1,3 +1,9 @@
+<center>
+
+   <img src="resources/logo.png" alt="logo.png" width="200px"/>
+
+</center>
+
 # Decodificador e Analisador de Pipeline RISC-V / RISC-V Decoder and Pipeline Analyzer
 
 ---
